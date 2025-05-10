@@ -1,0 +1,2 @@
+C:/Users/Moaiz/AndroidStudioProjects/women-safety-02-main/android/app/.cxx/Debug/6g65k451/x86/CMakeFiles/edit_cache.dir
+C:/Users/Moaiz/AndroidStudioProjects/women-safety-02-main/android/app/.cxx/Debug/6g65k451/x86/CMakeFiles/rebuild_cache.dir
