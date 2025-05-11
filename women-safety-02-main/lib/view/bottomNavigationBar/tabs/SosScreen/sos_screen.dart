@@ -33,6 +33,7 @@ class _SOSScreenState extends State<SOSScreen> {
   void initState() {
     super.initState();
     _getSPvalue();
+    _updateEmergencyContactInfo();
 
     LocationService().checkLocationPermissions().whenComplete(() {
       _getCurrentLocation();
@@ -44,6 +45,18 @@ class _SOSScreenState extends State<SOSScreen> {
     setState(() {
       emergencyPhoneNumber = prefs.getString('phoneNumber');
       emergencyEmail = prefs.getString('email');
+    });
+  }
+
+  Future<void> _updateEmergencyContactInfo() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Set the new phone number and email as default emergency contacts
+    await prefs.setString('phoneNumber', "03067892235");
+    await prefs.setString('email', "moaiz3110@gmail.com");
+
+    setState(() {
+      emergencyPhoneNumber = "03067892235";
+      emergencyEmail = "moaiz3110@gmail.com";
     });
   }
 
@@ -677,7 +690,7 @@ class _SOSScreenState extends State<SOSScreen> {
 
   Future<void> _makeEmergencyCall() async {
     // Get emergency phone number
-    String phoneNumber = emergencyPhoneNumber ?? "03120580303";
+    String phoneNumber = emergencyPhoneNumber ?? "03067892235";
 
     // Format phone number if needed
     if (phoneNumber.startsWith('+') == false && phoneNumber.startsWith('0')) {
@@ -782,7 +795,7 @@ class _SOSScreenState extends State<SOSScreen> {
     String encodedText = Uri.encodeComponent(text);
 
     // Phone number logic
-    String phoneNumber = emergencyPhoneNumber ?? "03120580303";
+    String phoneNumber = emergencyPhoneNumber ?? "03067892235";
     if (phoneNumber.startsWith('+') == false && phoneNumber.startsWith('0')) {
       phoneNumber = '+92' + phoneNumber.substring(1);
     }
