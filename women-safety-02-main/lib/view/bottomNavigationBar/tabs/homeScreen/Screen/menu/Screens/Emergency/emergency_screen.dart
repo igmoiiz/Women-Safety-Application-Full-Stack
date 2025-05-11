@@ -57,12 +57,26 @@ class _EmergencyScreenState extends State<EmergencyScreen>
       _lastTappedService = title;
     });
 
-    final Uri phoneUri = Uri(scheme: 'tel', path: number);
+    // Format the phone number properly
+    String formattedNumber = number.replaceAll('-', '');
+    
+    // Create the URI with the properly formatted number
+    final Uri phoneUri = Uri(scheme: 'tel', path: formattedNumber);
 
-    if (await canLaunchUrl(phoneUri)) {
-      await launchUrl(phoneUri);
-    } else {
-      CustomToast.showSnackbar(context, 'Could not launch dialer');
+    try {
+      if (await canLaunchUrl(phoneUri)) {
+        await launchUrl(phoneUri);
+      } else {
+        // Try with another approach for some Android devices
+        final alternativeUri = Uri.parse('tel:$formattedNumber');
+        if (await canLaunchUrl(alternativeUri)) {
+          await launchUrl(alternativeUri);
+        } else {
+          CustomToast.showSnackbar(context, 'Could not launch dialer');
+        }
+      }
+    } catch (e) {
+      CustomToast.showSnackbar(context, 'Error launching dialer: ${e.toString()}');
     }
 
     // Reset the tapped service after a delay
